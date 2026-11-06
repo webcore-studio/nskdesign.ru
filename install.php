@@ -306,7 +306,7 @@ function sys_install()
                                     'default'    => ''),
 
       'table_type' =>         array('type'       => 'varchar',
-                                    'size'       => 64,
+                                    'size'       => 255,
                                     'null'       => false,
                                     'default'    => ''),
 
