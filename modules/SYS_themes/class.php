@@ -192,11 +192,11 @@ class SYS_themes
     foreach ($filethemes_list as $theme)
       {
       //Проверка на повторяемость
+      $prezent = false;
       if (isset ($dbthemes_list))
         {
         foreach ($dbthemes_list as $dbtheme)
           {
-          $prezent=false;
           if ($dbtheme['theme_name']==$theme['theme_name'])
             {//Уже есть
             $prezent=true;
@@ -208,9 +208,9 @@ class SYS_themes
       if (!$prezent)
         {
 	//!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-	if ($theme['theme_name']==sysModGetVar('SYS_config','default_theme'))  $theme['theme_active']=true;
+	if ($theme['theme_name']==sysModGetVar('SYS_config','default_theme'))  $theme['theme_active']=1;
 	else
-        $theme['theme_active']=false;//По умолчаню сразу неактивна
+        $theme['theme_active']=0;//По умолчаню сразу неактивна
         // New theme
         sysDbInsert ($themes_table, $theme);
         //Регенирация шаблонов

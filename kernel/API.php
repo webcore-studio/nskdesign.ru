@@ -113,7 +113,7 @@ function sysInit()
   ignore_user_abort(true);
 
   // Если нужно декодируем пароль и логин из конфига
-  if ($sysConfig['DB.Encoded']) {
+  if (!empty($sysConfig['DB.Encoded'])) {
     $sysConfig['DB.UserName'] = base64_decode($sysConfig['DB.UserName']);
     $sysConfig['DB.Password'] = base64_decode($sysConfig['DB.Password']);
     $sysConfig['DB.Encoded'] = 0;
@@ -1553,8 +1553,8 @@ function sysDBInsert($systable, $data)
       $sqlkey .= ', ' . $column[$key];
       $sqlvalues .= ", '" . mysqli_real_escape_string($dbconn, $value) . "'";
     } else {
-      $sqlkey .= $column[$key];
-      $sqlvalues .= "'" . mysqli_real_escape_string($dbconn, $value) . "'";
+      $sqlkey = $column[$key];
+      $sqlvalues = "'" . mysqli_real_escape_string($dbconn, $value) . "'";
     }
     ;
     // Готовим строку начений
@@ -2944,7 +2944,7 @@ function sysSessionSetup()
   if (empty($path))
     $path = '/';
 
-  $host = $HTTP_SERVER_VARS['HTTP_HOST'];
+  $host = $_SERVER['HTTP_HOST'] ?? '';
   if (strpos($host, ':') !== false)
     $host = substr($host, 0, strpos($host, ':'));
 
@@ -3238,7 +3238,7 @@ function sysSessionRead($sessid)
   mysqli_free_result($mysql_result);
 
   //Если с временни lastused прошло больше часа, значит последний визит был - lastused
-  if ($sess_dbdate['lastused'] < (time() - 3600)) {
+  if ($sess_dbdate && $sess_dbdate['lastused'] < (time() - 3600)) {
     if ($sess_dbdate['user_id'] > 0) {
       $users_table = sysDBGetTable('users');
       $users_column = sysDBGetColumns($users_table);
@@ -3732,7 +3732,10 @@ function sys_log_write($sender, $level = LOG_DEBUG, $message = '', $vars = null,
     $str_time = date('d.m.y H:i:s');
     $log_str = sprintf("[%s] [%s] [%s] %s %s\r\n", $str_time, $sender, $level, $message,
       isset($vars) ? var_export($vars, true) : '');
-    error_log($log_str, 3, 'var/log/' . ($log_module ? $log_module : 'messages') . '.log');
+    $log_file = dirname(__DIR__) . '/var/log/' . ($log_module ? $log_module : 'messages') . '.log';
+    if (!error_log($log_str, 3, $log_file)) {
+      error_log($log_str);
+    }
     return true;
     }
 
