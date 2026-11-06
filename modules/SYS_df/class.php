@@ -111,7 +111,9 @@ class SYS_df
         };
 
       // DEFAULT 'as'
-      if (isset ($params['default']) && !$params['increment'] && $params['type']!='datetime')
+      // MySQL strict mode: BLOB/TEXT/JSON/GEOMETRY columns can't have a DEFAULT value
+      if (isset ($params['default']) && !$params['increment'] && $params['type']!='datetime'
+          && !in_array(strtolower($params['type']), array('tinytext', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'json', 'geometry')))
         {
         $query.= " DEFAULT '".$params['default']."'";
         };
