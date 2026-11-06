@@ -1411,7 +1411,7 @@ function sysDBUpdate($systable, $data, $where)
     if (isset($set)) {
       $set .= ", " . $column[$key] . " = '" . mysqli_real_escape_string($dbconn, $value) . "'";
     } else {
-      $set .= $column[$key] . " = '" . mysqli_real_escape_string($dbconn, $value) . "'";
+      $set = $column[$key] . " = '" . mysqli_real_escape_string($dbconn, $value) . "'";
     }
     ;
   }
@@ -1427,10 +1427,16 @@ function sysDBUpdate($systable, $data, $where)
 
   sys_log('sysDBUpdate', LOG_DEBUG, 'sql', $sql, 'sql');
 
-  mysqli_query($dbconn, $sql);
-
-  if (mysqli_connect_errno())
-    sysException('sysDBUpdate', DATABASE_ERROR, mysqli_connect_error());
+  try {
+    $result = mysqli_query($dbconn, $sql);
+  } catch (mysqli_sql_exception $e) {
+    sysException('sysDBUpdate', DATABASE_ERROR, $e->getMessage());
+    return false;
+  }
+  if ($result === false) {
+    sysException('sysDBUpdate', DATABASE_ERROR, mysqli_error($dbconn));
+    return false;
+  }
 
 
   return true;

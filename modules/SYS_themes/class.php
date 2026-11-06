@@ -260,7 +260,7 @@ class SYS_themes
     $themes_table = sysDBGetTable('themes');
     $themes_column =  sysDBGetColumns($themes_table);
 
-    sysDbUpdate ($themes_table, array ('theme_active'=>true),
+    sysDbUpdate ($themes_table, array ('theme_active'=>1),
                  "WHERE $themes_column[id]=$id");
     //Очищаем кеш шаблонов блока
     $sysTpl = new sysTpl;
@@ -279,7 +279,7 @@ class SYS_themes
     $themes_table = sysDBGetTable('themes');
     $themes_column =  sysDBGetColumns($themes_table);
 
-    sysDbUpdate ($themes_table, array ('theme_active'=>false),
+    sysDbUpdate ($themes_table, array ('theme_active'=>0),
                  "WHERE $themes_column[id]=$id");
     //Очищаем кеш шаблонов блока
     $sysTpl = new sysTpl;

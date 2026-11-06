@@ -22,14 +22,13 @@ function SYS_themes_user_changetheme()
   if (sysThemeAvailable($theme_name))
     {
     sysSessionSetVar('user_theme', $theme_name);
-    if (sysUserLoggedIn())
+    if (sysUserIsLoggedIn())
       {
       sysUserSetVar('user_theme', $theme_name);
       }
     }
 
-  global $HTTP_SERVER_VARS;
-  $http_referer = $HTTP_SERVER_VARS['HTTP_REFERER'];
+  $http_referer = !empty($_SERVER['HTTP_REFERER']) ? $_SERVER['HTTP_REFERER'] : 'index.php';
   sysRedirect($http_referer);
   }
 
