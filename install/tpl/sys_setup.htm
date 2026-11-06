@@ -1,0 +1,94 @@
+﻿<form action="install.php" method="post">
+  <input type="hidden" name="sys_install_step" value="sys_install">
+
+  <table border="0">
+    <colgroup>
+      <col width="50%">
+      <col width="50%">
+    </colgroup>
+
+
+    <tfoot>
+      <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center" colspan="2">
+          <input class="btn" type="submit" value="Продолжить">
+        </td>
+      </tr>
+    </tfoot>
+
+    <tbody>
+      <tr>
+        <th colspan="2"><font color="#FF0000">{$error_msg}</p></th>
+      </tr>
+
+      <tr>
+        <th colspan="2">Настройки доступа к Базе Данных</th>
+      </tr>
+
+      <tr>
+        <td>Сервер базы данных: </td>
+        <td><input name="db_host" type="text" value="localhost"></td>
+      </tr>
+      <tr>
+        <td>Имя пользователя базы данных: </td>
+        <td><input name="db_username" type="text" value=""></td>
+      </tr>
+      <tr>
+        <td>Пароль пользователя базы данных: </td>
+        <td><input name="db_password" type="text" value=""></td>
+      </tr>
+      <tr>
+        <td>Имя базы данных: </td>
+        <td><input name="db_name" type="text" value=""></td>
+      </tr>
+      <tr>
+        <td>Префикс для имен таблиц: </td>
+        <td><input name="db_tableprefix" type="text" value="sys"></td>
+      </tr>
+      <tr>
+        <td>Создать базу данных</td>
+        <td><input name="create_db" type="checkbox" value="0"></td>
+      </tr>
+
+
+      <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <th colspan="2">Прочие настройки</th>
+      </tr>
+	  <input type="hidden" value="utf-8" name="db_setnames">
+    <!--  <tr>
+        <td>Кодировка сайта</td>
+        <td><select name="db_setnames"><option value="cp1251">cp1251</option><option value="utf8" selected>utf8</option></select></td>
+      </tr>-->
+      <tr>
+
+      <tr>
+        <td>Кэшировать переменные ?</td>
+        <td><input name="var_caching" type="checkbox" value="1" checked><input name="db_setnames" type="hidden" value="utf-8"></td>
+      </tr>
+      <tr>
+        <td>Права по умолчанию на файлы создаваемые WE: </td>
+        <td><input name="default_file_perms" type="text" value="0755" size="4"></td>
+      </tr>
+      <tr>
+        <td>Права по умолчанию на директории создаваемые WE: </td>
+        <td><input name="default_dir_perms" type="text" value="0755" size="4"></td>
+      </tr>
+      <tr>
+        <td>Создавать поддиректории при организации кэшей: </td>
+        <td><input name="systpl_use_sub_dirs" type="checkbox" value="1" checked></td>
+      </tr>
+      <tr>
+        <td>Время кэширования шаблонов (секунды): </td>
+        <td><input name="systpl_cache_lifetime" type="text" value="10800"></td>
+      </tr>
+    </tbody>
+
+  </table>
+
+</form>

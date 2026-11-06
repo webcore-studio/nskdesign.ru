@@ -1,0 +1,73 @@
+* {
+  	font-family: 'PT Sans', serif;
+  	font-size: 14px;
+}
+html, body {
+	margin: 0;
+  	font-family: 'PT Sans', serif;
+  	font-size: 14px;
+  	line-height: 20px;
+  	color: #333333;
+	height: 100%;
+}
+
+
+a {
+	color:#085dae;
+	text-decoration:underline;
+}
+
+a:hover {
+	text-decoration:none;
+}
+
+.infobox {
+	position:absolute;
+	top:200px;	
+	left: 50%;
+	margin-left:-300px;
+	width:600px;
+	min-height:200px;
+	padding:20px;
+	background-color:#fff;
+	border:1px solid #777;
+	border-radius:5px;
+	z-index:100;
+
+}
+
+
+.span12 {
+	width:1000px;
+}
+
+.container {
+	width:1000px;
+}
+
+
+#auth {
+	z-index:20;
+}
+
+#cabinet {
+	z-index:20;
+}
+
+#cabinet span {
+	margin-right:15px;
+}
+
+
+#cabinet_list,
+#ulogin {
+	position:absolute;
+	background-color:#fff;
+	border:1px solid #158947;
+	padding:10px;	
+	min-width: 200px;
+	z-index:30;
+	right:160px;
+	top:5px;
+	padding-top:30px
+}

@@ -1,0 +1,40 @@
+8
+
+dir
+9
+svn://10.2.1.3/webcore/Current/modules/menu/lang/rus
+svn://10.2.1.3/webcore
+
+
+
+2008-01-31T01:36:22.444582Z
+9
+test
+
+
+svn:special svn:externals svn:needs-lock
+
+
+
+
+
+
+
+
+
+
+
+8f25a428-cf94-11dc-be9a-a55c40ab168e
+
+lang.conf
+file
+
+
+
+
+2008-01-31T01:42:25.968750Z
+d41d8cd98f00b204e9800998ecf8427e
+2008-01-31T01:36:22.444582Z
+9
+test
+

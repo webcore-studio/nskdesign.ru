@@ -1,0 +1,52 @@
+<form action="install.php" method="post">
+  <input type="hidden" name="sys_install_step" value="theme_setup">
+
+  <table border="0">
+
+ 
+    <thead>
+      <tr>
+        <th>Выбор темы</th>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">
+          <input type="submit" value="Продолжить">
+        </td>
+      </tr>
+    </tfoot>
+
+    <tbody>
+      <tr>
+        <td align=center>
+	<div style="position:relative;">
+	<input type=radio name="default_theme" value="sleekbluey" checked>
+	<img src="/themes/sleekbluey/theme_200.jpg" onclick="document.getElementById('sleekbluey_img').style.display='block'" border=1 style="z-index:1; cursor:pointer;">
+	<img src="/themes/sleekbluey/theme.jpg" id="sleekbluey_img" style="display:none;position:absolute;top:-100px; left:-300px; z-index:5;" onmouseout="document.getElementById('sleekbluey_img').style.display='none'"  border=1>
+	</div>
+
+	<div style="position:relative;">
+	<input type=radio name="default_theme" value="alfa">
+	<img src="/themes/alfa/theme_200.jpg"  onclick="document.getElementById('capital_mxpro_img').style.display='block'"  border=1 style="z-index:1;cursor:pointer;">
+	<img src="/themes/alfa/theme.jpg" id="capital_mxpro_img" style="display:none;position:absolute;top:-200px; left:-300px; z-index:5;" onmouseout="document.getElementById('capital_mxpro_img').style.display='none'"  border=1>
+	</div>
+	<div style="position:relative;">
+	<input type=radio name="default_theme" value="primepress">
+	<img src="/themes/primepress/theme_200.jpg"   onclick="document.getElementById('primepres_img').style.display='block'"  border=1 style="z-index:1;cursor:pointer;">
+	<img src="/themes/primepress/theme.jpg" id="primepres_img" style="display:none;position:absolute;top:-200px; left:-300px; z-index:5;" onmouseout="document.getElementById('primepres_img').style.display='none'"  border=1>
+	</div>
+</td>
+     </tr>
+    </tbody>
+
+  </table>
+
+</form>

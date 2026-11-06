@@ -1,0 +1,1 @@
+<a href="/index.php?module=fields&type=admin&func=list&fld_module={$fld_module}&fld_key_a={$fld_key_a}&fld_key_b={$fld_key_b}">Управление дополнительными полями</a>

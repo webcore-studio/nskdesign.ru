@@ -1,0 +1,13 @@
+a {
+   text-decoration: none;
+   color: #6a5acd;
+   font-weight: bold;
+}
+a:hover {
+   color: #003366;
+}
+
+input[type=text],
+input[type=password] {
+	height:auto;
+}

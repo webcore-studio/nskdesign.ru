@@ -1,0 +1,36 @@
+<form action="install.php" method="post">
+  <input type="hidden" name="sys_install_step" value="theme">
+
+  <table border="0">
+
+ 
+    <thead>
+      <tr>
+        <th>Выбор темы</th>
+      </tr>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+        <td>&nbsp;</td>
+      </tr>
+      <tr>
+        <td align="center">
+          <input type="submit" value="Продолжить">
+        </td>
+      </tr>
+    </tfoot>
+
+    <tbody>
+{foreach $themes as $theme}
+      <tr>
+        <td>{$theme.theme_displayname}</td>
+     </tr>
+    </tbody>
+
+  </table>
+
+</form>

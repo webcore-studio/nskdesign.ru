@@ -1,0 +1,216 @@
+Options -Indexes
+
+#DirectoryIndex index.html 
+DirectoryIndex index.php 
+
+
+#php_flag magic_quotes_gpc Off
+#php_flag session.auto_start 0
+#php_flag display_errors 1
+
+RewriteEngine on
+#RewriteCond %{HTTP_HOST} !^site.ru$
+#RewriteRule ^(.*)$ http://site.ru/$1 [R=301,L]
+
+
+AddType application/vnd.openxmlformats .docx .pptx .xlsx .xltx . xltm .dotx .potx .ppsx
+ErrorDocument 404 /404.html
+
+############# Модуль фото #####################
+RewriteRule ^foto/?$  /index.php?module=foto [L]
+
+RewriteRule ^foto/admin/?$  /index.php?module=foto&type=admin [L]
+RewriteRule ^foto/([0-9]+)/?$  /index.php?module=foto&func=cat_view&id=$1 [L]
+RewriteRule ^foto/([0-9]+)/(\d+)/?$  /index.php?module=foto&func=cat_view&id=$1&page_current=$2 [L]
+
+############# Модуль поиск #####################
+RewriteRule ^search?(.*)$  /index.php?module=search&func=view [L,QSA]
+RewriteRule ^search/?$  /index.php?module=search [L]
+
+############# Модуль форум #####################
+RewriteRule ^forum/?$  /index.php?module=forum [L]
+RewriteRule ^forum/admin/?$  index.php?module=forum&type=admin [L]
+RewriteRule ^forum/([0-9]+)/?$  /index.php?module=forum&func=forum_view&id=$1 [L]
+RewriteRule ^forum/([0-9]+).html?$  /index.php?module=forum&func=topic_view&id=$1 [L,QSA]
+
+
+##############  Опросы #####################
+RewriteRule ^polls/?$ index.php?module=polls [L]
+RewriteRule ^polls/(\d+)/?$ index.php?module=polls&func=poll_poll&id=$1 [L]
+RewriteRule ^polls/result/(\d+)/?$ index.php?module=polls&func=poll_results&id=$1 [L]
+
+############# Модуль магазин #####################
+RewriteRule ^shop/?$  /index.php?module=shop [L]
+RewriteRule ^shop/admin/?$  /index.php?module=shop&type=admin [L]
+RewriteRule ^shop/add_to_basket/([0-9]+)/?$  /index.php?module=shop&type=admin&func=basket_create&id=$1 [L,QSA]
+RewriteRule ^shop/add_to_basket/cat/([0-9]+)/?$  /index.php?module=shop&type=admin&func=basket_create&cat_id=$1 [L,QSA]
+RewriteRule ^shop/basket/clear/?$  index.php?module=shop&type=admin&func=basket_clear [L]
+RewriteRule ^shop/basket/?$  /index.php?module=shop&func=basket_view [L]
+RewriteRule ^shop/order/?$  /index.php?module=shop&type=admin&func=payment_new [L,QSA]
+RewriteRule ^shop/payments/(\d+)/?$  index.php?module=shop&func=payment_list&page_current=$1 [L,QSA]
+RewriteRule ^shop/payments/?$  /index.php?module=shop&func=payment_list [L,QSA]
+RewriteRule ^shop/vendor/(\d+)/?$  /index.php?module=shop&func=vendor_view&id=$1 [L,QSA]
+RewriteRule ^shop/vendor/(\d+)/(\d+)/?$  /index.php?module=shop&func=vendor_view&id=$1&page=$2 [L,QSA]
+RewriteRule ^shop/vendors/?$  /index.php?module=shop&func=vendor_list [L,QSA]
+
+RewriteRule ^shop/([0-9]+)/?$  /index.php?module=shop&func=cat_view&id=$1 [L,QSA]
+RewriteRule ^shop/([0-9]+)/([1-9]+)/?$  /index.php?module=shop&func=cat_view&id=$1&page=$2 [L,QSA]
+RewriteRule ^shop/([0-9]+)/([0-9]+).html?$  /index.php?module=shop&func=product_view&id=$2&cat_id=$1 [L,QSA]
+RewriteRule ^shop/([a-zA-Z1-9_-]+)/?$  /index.php?module=shop&func=cat_view&cat_name=$1 [L,QSA]
+RewriteRule ^shop/([a-zA-Z1-9_-]+)/([1-9]+)/?$  /index.php?module=shop&func=cat_view&cat_name=$1&page=$2 [L,QSA]
+
+RewriteRule ^shop/([a-zA-Z1-9_-]+)/([0-9]+).html?$  /index.php?module=shop&func=product_view&id=$2&cat_name=$1 [L,QSA]
+RewriteRule ^shop/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html$ index.php?module=shop&func=product_view&product_name=$2&cat_name=$1 [L,QSA]
+
+########## SYS_users ##########
+RewriteRule ^registerscreen$ index.php?module=SYS_users&func=registerscreen_agree [L]
+RewriteRule ^register/?$ /index.php?module=SYS_users&func=register [L,QSA]
+RewriteRule ^loginscreen index.php?module=SYS_users&func=loginscreen [L]
+RewriteRule ^logout index.php?module=SYS_users&func=logout [L]
+RewriteRule ^lostpassscreen index.php?module=SYS_users&func=lostpassscreen [L]
+RewriteRule ^sendpassword index.php?module=SYS_users&func=sendpassword [L]
+RewriteRule ^user/profile_modify/?$ index.php?module=SYS_users&type=admin&func=modify [L,QSA]
+#RewriteRule ^user/(.*)/?$ index.php?module=SYS_users&type=user&func=user_view&user_name=$1 [L]
+
+################### Модуль My ##########################################
+
+
+#Реврайты для списка пользователей
+RewriteRule ^user_list/?$ index.php?module=my&func=user_list [L]
+
+
+# Редактирование профиля
+RewriteRule ^user/(profile_main_modify|profile_main_update|profile_contact_modify|profile_contact_update|profile_interest_modify|profile_interest_update|profile_foto_modify|profile_foto_update|profile_avatar_modify|profile_avatar_update)/?$ index.php?module=my&func=$1 [L]
+RewriteRule ^user/(.*)/(profile_main_modify|profile_main_update|profile_contact_modify|profile_contact_update|profile_interest_modify|profile_interest_update|profile_foto_modify|profile_foto_update|profile_avatar_modify|profile_avatar_update)/?$ index.php?module=my&func=$2&user_name=$1 [L]
+
+# Создание или повторение предложения дружбы
+RewriteRule ^user/(.*)/friends/requests_create/?$ index.php?module=my&func=friends_requests_create&user_name=$1 [L]
+
+# Отказ или отмена предложения дружбы
+RewriteRule ^user/(.*)/friends/requests_delete/(.*)/?$ index.php?module=my&func=friends_requests_delete&user_name=$1&id=$2 [L]
+
+# Создание друга
+RewriteRule ^user/(.*)/friends/create/?$ index.php?module=my&func=friends_create&user_name=$1 [L]
+
+# Удаление друга
+RewriteRule ^user/(.*)/friends/delete/?$ index.php?module=my&func=friends_delete&user_name=$1 [L]
+
+# Новые предложения
+RewriteRule ^user/(.*)/friends/myrequests/?$ index.php?module=my&func=friends_myrequests_list&user_name=$1 [L]
+
+# Мои предложения
+RewriteRule ^user/(.*)/friends/requests/?$ index.php?module=my&func=friends_requests_list&user_name=$1 [L]
+
+# Мои друзья
+RewriteRule ^user/(.*)/friends/?$ index.php?module=my&func=friends_list&user_name=$1 [L]
+
+# Дефолтный список сообщений
+RewriteRule ^user/(.*)/privmsg/?$ index.php?module=my&func=privmsg_list [L]
+
+
+# Просмотр профиля
+RewriteRule ^user/(.*)/?$ index.php?module=my&func=user_view&user_name=$1 [L]
+RewriteRule ^user/?$ index.php?module=my&func=user_view [L]
+
+
+
+
+############## Модуль календарь #####################
+RewriteRule ^calendar/?$ /index.php?module=calendar [L]
+RewriteRule ^calendar/([0-9]+)/([0-9]+)/([0-9]+)/?$  /index.php?module=calendar&func=list&year=$1&month=$2&day=$3 [L]
+
+########## RSS&Atom ленты ##########
+RewriteRule ^rss$ /index.php?module=content&type=xml&func=rss_list [L]
+RewriteRule ^atom$ /index.php?module=content&type=xml&func=atom_list [L]
+
+
+
+########## SYS_config ##########
+RewriteRule ^404.html$ index.php?module=SYS_config&func=errorpage_view&page=404 [L,QSA]
+RewriteRule ^error.html$ index.php?module=SYS_config&func=errorpage_view&page=error [L,QSA]
+
+############# Модуль EDU #####################
+RewriteRule ^edu/?$  /index.php?module=edu [L]
+
+RewriteRule ^edu/([0-9]+)/?$  /index.php?module=edu&func=cat_view&id=$1 [L,QSA]
+RewriteRule ^edu/([0-9]+)/([1-9]+)/?$  /index.php?module=edu&func=cat_view&id=$1&page=$2 [L,QSA]
+RewriteRule ^edu/([0-9]+)/([0-9]+).html?$  /index.php?module=edu&func=product_view&id=$2&cat_id=$1 [L,QSA]
+RewriteRule ^edu/([a-zA-Z1-9_-]+)/?$  /index.php?module=edu&func=cat_view&cat_name=$1 [L,QSA]
+RewriteRule ^edu/([a-zA-Z1-9_-]+)/([1-9]+)/?$  /index.php?module=edu&func=cat_view&cat_name=$1&page=$2 [L,QSA]
+
+RewriteRule ^edu/([a-zA-Z1-9_-]+)/([0-9]+).html?$  /index.php?module=edu&func=product_view&id=$2&cat_name=$1 [L,QSA]
+RewriteRule ^edu/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html$ index.php?module=edu&func=product_view&product_name=$2&cat_name=$1 [L,QSA]
+
+############## Модуль каталог #####################
+
+RewriteRule ^catalog/?$ /index.php?module=catalog [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([0-9]+)/?$ /index.php?module=catalog&func=folder_view&id=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([0-9]+)/([0-9]+)/?$ /index.php?module=catalog&func=folder_view&id=$1&page=$2 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([0-9]+)/([0-9]+).html$ /index.php?module=catalog&func=doc_view&id=$2&fid=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([a-zA-Z0-9_-]+)/?$ /index.php?module=catalog&func=folder_view&name=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([a-zA-Z0-9_-]+)/([0-9]+)/?$ /index.php?module=catalog&func=folder_view&name=$1&page=$2 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([a-zA-Z0-9_-]+)/([0-9]+).html$ /index.php?module=catalog&func=doc_view&id=$2&fname=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([0-9]+)/([a-zA-Z0-9_-]+).html$ /index.php?module=catalog&func=doc_view&dname=$2&fid=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^catalog/([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html$ /index.php?module=catalog&func=doc_view&dname=$2&fname=$1 [L,QSA]
+
+
+
+############## Модуль контент #####################
+
+RewriteRule ^content/?$ /index.php?module=content [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([0-9]+)/?$ /index.php?module=content&func=folder_view&id=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([0-9]+)/([0-9]+)/?$ /index.php?module=content&func=folder_view&id=$1&page=$2 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([0-9]+)/([0-9]+).html$ /index.php?module=content&func=doc_view&id=$2&fid=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_-]+)/?$ /index.php?module=content&func=folder_view&name=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_-]+)/([0-9]+)/?$ /index.php?module=content&func=folder_view&name=$1&page=$2 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_-]+)/([0-9]+).html$ /index.php?module=content&func=doc_view&id=$2&fname=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([0-9]+)/([a-zA-Z0-9_-]+).html$ /index.php?module=content&func=doc_view&dname=$2&fid=$1 [L,QSA]
+
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+).html$ /index.php?module=content&func=doc_view&dname=$2&fname=$1 [L,QSA]

@@ -1,0 +1,274 @@
+
+.font12 {
+	font-size:12px;
+}
+
+.font13 {
+	font-size:13px;
+}
+
+.item {
+	margin-bottom:30px;
+}
+
+.item10 {
+	margin-bottom:10px;
+}
+
+.center {
+	text-align:center !important;
+}
+
+.date,
+.date a,
+.browsein,
+.browsein a {
+	font-size:12px;
+	color:#999999;
+
+}
+.content ul {
+	list-style-type: disc;
+	margin: 0 0 10px 25px;
+}
+
+.content ol {
+	list-style-type: decimal;
+	margin: 0 0 10px 25px;
+}
+
+
+
+/* Горизонтальное меню на всю ширину страницы */
+      .navbar .navbar-inner {
+        padding: 0;
+      }
+      .navbar .nav {
+        margin: 0;
+        display: table;
+        width: 100%;
+      }
+      .navbar .nav > li {
+        display: table-cell;
+        width: 1%;
+        float: none;
+      }
+      .navbar .nav > li a {
+        font-weight: bold;
+        text-align: center;
+        border-left: 1px solid rgba(255,255,255,.75);
+        border-right: 1px solid rgba(0,0,0,.1);
+      }
+      .navbar .nav > li:first-child a {
+        border-left: 0;
+        border-radius: 3px 0 0 3px;
+      }
+      .navbar .nav > li:last-child a {
+        border-right: 0;
+        border-radius: 0 3px 3px 0;
+      }
+
+
+.table-striped tbody tr:nth-child(2n+1) td, 
+.table-striped tbody tr:nth-child(2n+1) th {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+
+.dropdown-submenu > .dropdown-menu  {
+   	 left:auto;
+	top:45px;
+}
+
+
+
+        
+/* Прикленный футер */
+html,body{
+	height:100%;
+	font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Roboto,Helvetica Neue,Arial,sans-serif;
+}
+
+
+
+#wrap{
+	min-height:100%;
+	height:auto!important;
+	height:100%;
+	margin:0 auto -60px;
+}
+#push,#footer{
+	height:60px;
+}
+#footer{
+	background-color:#f5f5f5;
+}
+@media (max-width: 767px) {
+	#footer{
+		margin-left:-20px;
+		margin-right:-20px;
+		padding-left:20px;
+		padding-right:20px;
+	}
+}
+
+
+#ulogin a.close {
+	float: left;
+	margin-top: -20px;
+	font-size: 11px;
+}
+
+#cabinet_list, #ulogin {
+	position: relative;
+	background-color: #fff;
+	border: 1px solid #ccc;
+	padding: 10px;
+	min-width: 150px;
+	z-index: 30;
+	right: 160px;
+	top: 5px;
+	padding-top: 30px;
+	box-shadow: 1px 1px 2px #ccc;
+	margin-left:0;
+}
+
+.LiveTextResult {
+  	position: absolute;
+  	background-color: #fff;
+  	z-index: 1;
+  	float:left;
+  	clear:left;
+  	width: 250px;
+  	display: none;
+  	font-weight:normal;
+	padding:5px;
+}
+
+
+.LiveTextOption {
+  	font-size: 11px;
+  	text-indent: 0px;
+ 	z-index: 1;
+  	padding: 2px 3px 2px 3px;
+  	line-height: 17px;
+  	margin-bottom:0px;
+  	cursor: pointer;
+}
+
+#LiveTextHighlight {
+  	background-color:#05A7D6;
+}
+
+
+#dropZone {    
+    color: #555;
+    font-size: 18px;
+    text-align: center;    
+    padding: 50px 0;
+    
+    background: #eee;
+    border: 1px solid #ccc;
+    
+    -webkit-border-radius: 5px;
+    -moz-border-radius: 5px;
+    border-radius: 5px;
+}
+
+#dropZone.hover {
+    background: #ddd;
+    border-color: #aaa;
+}
+
+#dropZone.error {
+    background: #faa;
+    border-color: #f00;
+}
+
+#dropZone.drop {
+    background: #afa;
+    border-color: #0f0;
+}
+
+table.object_list tr .btn {
+	display:none;
+	width:100px;
+	margin-bottom:10px;
+	display:block;
+	text-decoration:none;
+}
+
+table.object_list tr:hover .btn {
+	display:block;
+}
+
+.page-logo.pull-left {
+	margin:0 10px 10px 0;
+}
+
+.page-logo.pull-right {
+	margin:0 0 10px 10px;
+}
+
+a.btn,
+a.btn:hover {
+	text-decoration:none;
+}
+
+#admin_menu {
+	height:32px; 
+	position:fixed; 
+	width:100%; 
+	top:0px; 
+	overflow:hidden; 
+	z-index:1000; 
+	text-align:center; 
+	margin-top:-25px;
+}
+
+#admin_menu #admin_menu_in {
+	border-radius:0 0 10px 10px;
+	border:1px solid #ccc; 
+	border-top:none; 
+	background-color:#f5f5f5; 
+	width:auto; 
+	display:inline-block;
+}
+
+#admin_menu #admin_menu_in li {
+	display:inline-block; 
+	margin:5px 10px
+}
+
+#admin_menu #admin_menu_in li a {
+	color:#777; 
+	text-decoration:
+	none;text-shadow:
+	0px 1px 0px #FFF;
+}
+
+#admin_menu #admin_menu_in li a:hover {
+	color:#333; 
+}
+
+
+#SyntaxErrorMsg {
+	display:none;
+}
+
+.block {
+	//position:relative;
+}
+
+.block  .block_panel ,
+.block_panel {
+	position:absolute;
+	left:0;
+	top:0;
+	display:none;
+	
+}
+
+.block:hover .block_panel {
+	display:block;
+}

@@ -1,0 +1,47 @@
+<?php
+
+// Имя пользователя базы данных
+$sysConfig['DB.UserName'] = '{$db_username}';
+
+// Пароль пользователя базы данных
+$sysConfig['DB.Password'] = '{$db_password}';
+
+// Сервер базы данных
+$sysConfig['DB.Host'] = '{$db_host}';
+
+// Имя базы данных
+$sysConfig['DB.Name'] = '{$db_name}';
+
+// Префикс для имен таблиц
+$sysConfig['DB.TablePrefix'] = '{$db_tableprefix}';
+
+// Локаль
+$sysConfig['locale.lc_all'] = '{$locale}';
+
+// Кодировка
+$sysConfig['DB.SetNames'] = '{$db_setnames}';
+$sysConfig['site.encoding'] = '{$db_setnames}';
+
+// Кэшировать переменные
+$sysConfig['Var.caching'] = {$var_caching};
+
+
+//Права по умолчанию на файлы создаваемые WE:
+$sysConfig['default.file.perms'] = {$default_file_perms};
+
+//Права по умолчанию на директории создаваемые WE
+$sysConfig['default.dir.perms'] = {$default_dir_perms};
+
+//Создавать поддиректории при организации кэшей.
+$sysConfig['systpl.use_sub_dirs'] = {$systpl_use_sub_dirs};
+
+//Время кэширования шаблонов (секунды)
+$sysConfig['systpl.cache_lifetime'] = {$systpl_cache_lifetime};
+
+//Всегда перекомпилировать шаблоны (только для отладки)
+$sysConfig['systpl.force_compile'] = 1;
+
+// TinyMCE Cloud API Key
+$sysConfig['tinymce.api_key'] = '4d54aa4496e57766bd9282142459ef8e793cef89882181daa4d23a1b777dfad5';
+
+?>

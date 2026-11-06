@@ -1,0 +1,10 @@
+User-agent: *
+
+Disallow: /kernel
+Disallow: /blocks
+Disallow: /modules
+Disallow: /lang
+Disallow: /cache
+Disallow: /var
+Disallow: /sxd
+Disallow: /files/mail

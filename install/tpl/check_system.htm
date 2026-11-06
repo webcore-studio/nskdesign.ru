@@ -1,0 +1,45 @@
+﻿<form action="install.php" method="post">
+  <input type="hidden" name="sys_install_step" value="{$install_step_name}">
+
+  <table border="0">
+
+    <colgroup>
+      <col width="20%">
+      <col width="80%">
+    </colgroup>
+
+    <thead>
+      <tr>
+        <th colspan="2">Проверка операционной системы</th>
+      </tr>
+      <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+    </thead>
+
+    <tfoot>
+      <tr>
+        <td colspan="2">&nbsp;</td>
+      </tr>
+      <tr>
+        <td colspan="2" align="center">
+          <input class="btn" type="submit" value="{$install_btn_name}">
+        </td>
+      </tr>
+    </tfoot>
+
+    <tbody>
+      <tr>{$php_state}</tr>
+      <tr>{$config_state}</tr>
+
+      <tr>{$log_state}</tr>
+      <tr>{$modules_state}</tr>
+
+      <tr>{$vars_state}</tr>
+      <tr>{$templates_state}</tr>
+      <tr>{$content_state}</tr>
+    </tbody>
+
+  </table>
+
+</form>
