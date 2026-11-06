@@ -3552,6 +3552,23 @@ function sysUserTheme()
  */
 function sysException($sender, $excType = BAD_PARAM, $message = '', $vars = null)
 {
+  static $in_exception = false;
+
+  // Защита от рекурсии: обработчик ошибки сам вызывает функции БД,
+  // которые при сбое снова вызывают sysException (вплоть до исчерпания памяти).
+  if ($in_exception)
+    {
+    if (defined('SYS_INSTALL_MODE') && SYS_INSTALL_MODE)
+      {
+      http_response_code(500);
+      echo '<h1>Ошибка установки CMS</h1><pre>'
+        . htmlspecialchars($sender . ': ' . $message, ENT_QUOTES, 'UTF-8') . '</pre>';
+      exit;
+      }
+    error_log('sysException re-entered: ' . $sender . ': ' . $message . "\n", 3, 'var/log/messages.log');
+    return false;
+    }
+  $in_exception = true;
 
   global $module;
   global $type;
@@ -3689,9 +3706,28 @@ function sysShowModPage($modresult = array())
  */
 function sys_log($sender, $level = LOG_DEBUG, $message = '', $vars = null, $log_module = 'messages')
 {
+  static $in_log = false;
 
+  // Защита от рекурсии: sys_log может сам вызвать sysException через DB-функции.
+  if ($in_log)
+    return true;
+  $in_log = true;
+  $result = sys_log_write($sender, $level, $message, $vars, $log_module);
+  $in_log = false;
+  return $result;
+}
 
-
+function sys_log_write($sender, $level = LOG_DEBUG, $message = '', $vars = null, $log_module = 'messages')
+{
+  // При установке таблиц модулей ещё нет — в БД не лезем, пишем только в файл.
+  if (defined('SYS_INSTALL_MODE') && SYS_INSTALL_MODE)
+    {
+    $str_time = date('d.m.y H:i:s');
+    $log_str = sprintf("[%s] [%s] [%s] %s %s\r\n", $str_time, $sender, $level, $message,
+      isset($vars) ? var_export($vars, true) : '');
+    error_log($log_str, 3, 'var/log/' . ($log_module ? $log_module : 'messages') . '.log');
+    return true;
+    }
 
   $debug = sysModGetVar('SYS_config', 'debug');
 
