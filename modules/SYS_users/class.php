@@ -329,6 +329,9 @@ class SYS_users
     //Делаем вставку информаии в базу
     $users_table = sysDBGetTable('users');
     if (empty($param['user_regdate'])) $param['user_regdate'] = time();
+
+    // TEXT NOT NULL без DEFAULT: описание нового пользователя может быть пустым.
+    if (!isset($param['user_about'])) $param['user_about'] = '';
 	
 	if (isset($param['bank_details']))
 		$param['bank_details'] = serialize($param['bank_details']);
