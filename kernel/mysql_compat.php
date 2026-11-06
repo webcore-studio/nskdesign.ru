@@ -197,3 +197,20 @@ if (!function_exists('mysql_connect')) {
         return mysql_query($sql, $link_identifier);
     }
 }
+
+/**
+ * Compatibility shim for each(), removed in PHP 8.0.
+ * Returns the current key/value pair and advances the array cursor.
+ */
+if (!function_exists('each')) {
+    function each(&$array)
+    {
+        $key = key($array);
+        if ($key === null) {
+            return false;
+        }
+        $result = [1 => current($array), 'value' => current($array), 0 => $key, 'key' => $key];
+        next($array);
+        return $result;
+    }
+}

@@ -193,7 +193,7 @@ class SYS_df
       sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysql_error()."<br> $query");
       };
 
-    while (list($field_name, $parameters) = each($fields))
+    foreach ($fields as $field_name => $parameters)
       {
       $query = "INSERT INTO $metaTable (
                 `table_name`,
