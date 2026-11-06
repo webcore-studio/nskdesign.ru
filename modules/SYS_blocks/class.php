@@ -99,6 +99,7 @@ if ($name=='advert_block') {$blockinfo['block_position']='a';}
     $MaxWeight++;
     $blockinfo['weight']=$MaxWeight;
     $blockinfo['block_content'] = '';
+    $blockinfo['block_refresh'] = isset($blockinfo['block_refresh']) ? (int) $blockinfo['block_refresh'] : 0;
     $insertId = (int) sysDbInsert ($blocks_table, $blockinfo);
     if ($insertId <= 0 && function_exists('mysql_insert_id'))
       {
