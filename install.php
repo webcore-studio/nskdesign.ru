@@ -46,6 +46,17 @@ switch ($sys_install_step)
   }
 
 //Вывод результатов
+// Завершаем запись сессии явно, чтобы отделить её ошибки от отправки HTML.
+if (session_status() === PHP_SESSION_ACTIVE) {
+  sys_log('install', LOG_INFO, 'Начато сохранение сессии перед выводом');
+  try {
+    $session_saved = session_write_close();
+    sys_log('install', LOG_INFO, 'Завершено сохранение сессии', array('saved' => $session_saved));
+  } catch (Throwable $e) {
+    sys_log('install', LOG_ERR, 'Ошибка сохранения сессии', array('type' => get_class($e), 'message' => $e->getMessage(), 'file' => $e->getFile(), 'line' => $e->getLine()));
+    throw $e;
+  }
+}
 $page_head = implode ('', file ('install/tpl/head.htm'));
 $page_foot = implode ('', file ('install/tpl/foot.htm'));
 echo $page_head.$step_result.$page_foot;

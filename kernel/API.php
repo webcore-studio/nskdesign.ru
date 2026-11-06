@@ -135,7 +135,7 @@ function sysInit()
 
 
   // Используем gzip зжатие если не кто не против
-  if (sysModGetVar('SYS_config', 'gzip_compression')) {
+  if (!(defined('SYS_INSTALL_MODE') && SYS_INSTALL_MODE) && sysModGetVar('SYS_config', 'gzip_compression')) {
     $accept_encoding = $_SERVER['HTTP_ACCEPT_ENCODING'] ?? ($HTTP_SERVER_VARS['HTTP_ACCEPT_ENCODING'] ?? '');
     if (!empty($accept_encoding) && strstr($accept_encoding, 'gzip')) {
       if (extension_loaded('zlib')) {
@@ -3012,7 +3012,7 @@ function sysSessionGetVar($name)
   $var = "SYSSV$name";
 
   global $$var;
-  if (!empty($_SESSION[$var])) {
+  if (isset($_SESSION[$var])) {
     return $_SESSION[$var];
   }
 
@@ -3105,7 +3105,8 @@ function sysSessionInit()
     //          return false;
     //        }
   } else {
-    sysSessionNew($sessid, $ipaddr);
+    if (!sysSessionNew($sessid, $ipaddr))
+      return false;
 
     //sys_log('sysSessionInit sysSessionNew', LOG_DEBUG, "sessid", $sessid);
 
@@ -3160,19 +3161,26 @@ function sysSessionNew($sessid, $ipaddr)
 
   $sql = "INSERT INTO $session_table
    									 ({$session_column['sessid']}, {$session_column['rand']}, {$session_column['user_id']},  {$session_column['user_gid']},
-   									 	{$session_column['firstused']}, {$session_column['lastused']}, {$session_column['ipaddr']})
+    									 	{$session_column['firstused']}, {$session_column['lastused']}, {$session_column['ipaddr']}, {$session_column['vars']})
   						   VALUES
   						     ('$sessid', '" . sysSessionGetVar('rand') . "', '0', '-1',
-  						      '" . sysSessionGetVar('firstused') . "', '" . sysSessionGetVar('lastused') . "', '$ipaddr'
+   						      '" . sysSessionGetVar('firstused') . "', '" . sysSessionGetVar('lastused') . "', '$ipaddr', ''
   						     )";
 
   //Логируем выборку
   global $dbg_sql_queries;
   $dbg_sql_queries[] = array('sql_query' => $sql);
 
-  mysqli_query($dbconn, $sql);
-  if (mysqli_connect_errno())
-    sysException('sysSessionNew', DATABASE_ERROR, mysqli_connect_error() . "<br> $sql");
+  try {
+    $result = mysqli_query($dbconn, $sql);
+  } catch (mysqli_sql_exception $e) {
+    sysException('sysSessionNew', DATABASE_ERROR, $e->getMessage());
+    return false;
+  }
+  if ($result === false) {
+    sysException('sysSessionNew', DATABASE_ERROR, mysqli_error($dbconn));
+    return false;
+  }
 
   return true;
 }
@@ -3300,10 +3308,16 @@ function sysSessionWrite($sessid, $vars)
   global $dbg_sql_queries;
   $dbg_sql_queries[] = array('sql_query' => $sql);
 
-  mysqli_query($dbconn, $sql);
-
-  if (mysqli_connect_errno())
-    sysException('sysSessionWrite', DATABASE_ERROR, mysqli_connect_error() . "<br> $sql");
+  try {
+    $result = mysqli_query($dbconn, $sql);
+  } catch (mysqli_sql_exception $e) {
+    sysException('sysSessionWrite', DATABASE_ERROR, $e->getMessage());
+    return false;
+  }
+  if ($result === false) {
+    sysException('sysSessionWrite', DATABASE_ERROR, mysqli_error($dbconn));
+    return false;
+  }
 
   //sys_log('sysSessionWrite end', LOG_DEBUG, "sql", $sql);
 
