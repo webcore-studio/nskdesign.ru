@@ -95,11 +95,11 @@ class SYS_modules
     foreach ($filemoduleslist as $module)
       {
       //Проверка на повторяемость
+      $prezent = false;
       if (isset ($dbmoduleslist))
         {
         foreach ($dbmoduleslist as $dbmod)
           {
-          $prezent=false;
           if ($dbmod['mod_name']==$module['mod_name'])
             {//Уже есть
             $prezent=true;
@@ -111,6 +111,10 @@ class SYS_modules
       if (!$prezent)
         {
         $module['mod_state'] = MODULE_STATE_UNINITIALISED;
+        if (!isset($module['mod_dependency']))
+          {
+          $module['mod_dependency'] = '';
+          }
         // New module
         sysDbInsert ($modules_table, $module);
         }
@@ -224,6 +228,12 @@ class SYS_modules
         //$modinfo['mod_name'] = $name; ????????????????????
         //$id = $modinfo['id'];
         };
+
+    if (empty($modinfo['mod_name']))
+      {
+      sysException('SYS_modules->activate', DATABASE_ERROR, 'Запись модуля не найдена в таблице модулей');
+      return false;
+      }
 
     // Module initialisation function
     $initfile='modules/'.$modinfo['mod_name'].'/init.php';

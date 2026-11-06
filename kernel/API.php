@@ -1574,10 +1574,17 @@ function sysDBInsert($systable, $data)
   //Логируем выборку
   global $dbg_sql_queries;
   $dbg_sql_queries[] = array('sql_query' => $sql);
-  mysqli_query($dbconn, $sql);
+  try {
+    $sql_result = mysqli_query($dbconn, $sql);
+  } catch (mysqli_sql_exception $e) {
+    sysException('sysDBInsert', DATABASE_ERROR, $e->getMessage());
+    return false;
+  }
 
-  if (mysqli_connect_errno())
-    sysException('sysDBInsert', DATABASE_ERROR, mysqli_connect_error());
+  if ($sql_result === false) {
+    sysException('sysDBInsert', DATABASE_ERROR, mysqli_error($dbconn));
+    return false;
+  }
 
   return mysqli_insert_id($dbconn);
 }
