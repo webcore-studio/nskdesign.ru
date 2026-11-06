@@ -86,6 +86,12 @@ class SYS_df
    */
   function CreateTable($tableName, $fields)
     {
+    global $dbconn;
+    if (!($dbconn instanceof mysqli))
+      {
+      sysException('SYS_df->CreateTable', DATABASE_ERROR, 'Соединение CMS с базой данных не инициализировано');
+      return false;
+      }
     //çàíîñèì columns èíôîðìàöèþ â áàçó
     $metaTable = sysDBGetTable('tables');
 
@@ -112,7 +118,7 @@ class SYS_df
 
       // DEFAULT 'as'
       // MySQL strict mode: BLOB/TEXT/JSON/GEOMETRY columns can't have a DEFAULT value
-      if (isset ($params['default']) && !$params['increment'] && $params['type']!='datetime'
+      if (isset ($params['default']) && empty($params['increment']) && $params['type']!='datetime'
           && !in_array(strtolower($params['type']), array('tinytext', 'text', 'mediumtext', 'longtext', 'tinyblob', 'blob', 'mediumblob', 'longblob', 'json', 'geometry')))
         {
         $query.= " DEFAULT '".$params['default']."'";
@@ -128,32 +134,32 @@ class SYS_df
         };
 
       // AUTO_INCREMENT
-      if ($params['increment'])
+      if (!empty($params['increment']))
         {
         $query.= " AUTO_INCREMENT";
         };
       //ÇÄÅÑÜ ÏÎÐÀ Í×ÀÒÜ ÄÓÌÀÒÜ Î ÊËÞ×ÀÕ
 
       // PRIMARY KEY
-      if ($params['primary_key'])
+      if (!empty($params['primary_key']))
         {
         $keys.= " PRIMARY KEY ( `$name` ) ,";
         };
 
       // index
-      if ($params['index'])
+      if (!empty($params['index']))
         {
         $keys.= " INDEX ( `$name` ) ,";
         };
 
       // unique
-      if ($params['unique'])
+      if (!empty($params['unique']))
         {
         $keys.= " UNIQUE ( `$name` ) ,";
         };
 
       // fulltext
-      if ($params['fulltext'])
+      if (!empty($params['fulltext']))
         {
         $fulltext_index .= "$name, ";
         };
@@ -182,17 +188,17 @@ class SYS_df
 
     //Ãðîõíóëè òàáëèöó, åñëè ñóùåñòâóåò
     $dropquery = 'DROP TABLE IF EXISTS ' . $tableName;
-    mysql_query($dropquery);
-    if (mysql_errno()!=0)
+    if (mysqli_query($dbconn, $dropquery) === false)
       {
-      sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysql_error()."<br> $dropquery");
+      sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysqli_error($dbconn)."<br> $dropquery");
+      return false;
       };
 
     //Ñîçäàëè íîâóþ :))
-    mysql_query($query);
-    if (mysql_errno()!=0)
+    if (mysqli_query($dbconn, $query) === false)
       {
-      sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysql_error()."<br> $query");
+      sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysqli_error($dbconn)."<br> $query");
+      return false;
       };
 
     foreach ($fields as $field_name => $parameters)
@@ -224,10 +230,10 @@ class SYS_df
                      (empty($parameters['increment']) ? '0' : '1') . ", " .
                      (empty($parameters['primary_key']) ? '0' : '1') .
                      ")";
-      mysql_query($query);
-      if (mysql_errno()!=0)
+      if (mysqli_query($dbconn, $query) === false)
         {
-        sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysql_error()."<br> $query");
+        sysException ('SYS_df->CreateTable', DATABASE_ERROR, mysqli_error($dbconn)."<br> $query");
+        return false;
         };
       }
 
