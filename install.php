@@ -11,6 +11,9 @@
 
 //Загрузили стистему, шаблоны к сожелению мы юзать не умеем
 define('SYS_INSTALL_MODE', true);
+// Ошибки PHP установщика сохраняем рядом с журналами CMS.
+ini_set('log_errors', '1');
+ini_set('error_log', __DIR__ . '/var/log/install-php-error.log');
 include_once 'kernel/API.php';
 
 //Конфигурим PHP
@@ -46,6 +49,7 @@ switch ($sys_install_step)
 $page_head = implode ('', file ('install/tpl/head.htm'));
 $page_foot = implode ('', file ('install/tpl/foot.htm'));
 echo $page_head.$step_result.$page_foot;
+sys_log('install', LOG_INFO, 'HTML страницы установки передан в вывод', array('step' => $sys_install_step, 'bytes' => strlen($page_head.$step_result.$page_foot)));
 
 
 
@@ -618,18 +622,21 @@ function admin_setup ()
   
   sysModClassLoad ('SYS_users');
   $SYS_users = new SYS_users;
-  $SYS_users->create (array ('user_gid'         => 1,
+  $admin_id = $SYS_users->create (array ('user_gid'         => 1,
                              'user_active'      => 1,
                              'user_name'        => $user_name,
                              'user_displayname' => $user_displayname,
                              'user_pass'        => md5 ($user_pass),
                              'user_email'       => $user_email,
                              'user_femail'      => $user_email,
-                             'user_theme'       => 'develope'));
+                              'user_theme'       => 'develope'));
+
+  sys_log('install', LOG_INFO, 'Завершён вызов создания администратора', array('id' => $admin_id));
 
   //Если все прошло успешно выводим поздравления
   $sysTpl = new basicSysTpl;
   $html = $sysTpl->fetch ('install/tpl/setup_finished.htm');
+  sys_log('install', LOG_INFO, 'Прочитан финальный шаблон', array('bytes' => strlen($html)));
   return $html;
   }
 
