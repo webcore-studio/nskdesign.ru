@@ -198,6 +198,16 @@ $menu_table = sysDBGetTable('menu');
     {
       global $dbconn;
 
+    // Обязательные текстовые поля не имеют DEFAULT в таблице.
+    if (!isset($item_indate['description']))
+      {
+      $item_indate['description'] = '';
+      }
+    if (!isset($item_indate['content']))
+      {
+      $item_indate['content'] = '';
+      }
+
     $items_table = sysDBGetTable('menu');
     $items_column = sysDBGetColumns($items_table);
 
