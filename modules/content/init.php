@@ -1,6 +1,7 @@
 <?php
 
 function content_init()   {
+  global $dbconn;
   
 	sysModClassLoad ('SYS_df');
 	$SYS_df = new SYS_df;
@@ -408,29 +409,31 @@ function content_init()   {
 
 	//индексы
 
-	$sql = "ALTER TABLE `sys_content_docs` ADD FULLTEXT (`displayname`, `description`,`content`); ";
-	mysql_query($sql);
-   $sql = "ALTER TABLE `sys_content_folders` ADD FULLTEXT (`displayname`, `description`,`content`); ";
-	mysql_query($sql);
-  
-  
-  //  Загрузка данных по умолчанию в базу  
-  
-  $sql = "INSERT INTO `$folders_table` (`id`, `active`, `weight`, `subdoc_orderby`,`subdoc_order_asc`,`displayname`,`name`) 
-				VALUES (1, 1, 1, 'pub_datetime', 0, 'Новости', 'news')";
-  mysql_query($sql);
-  
-  $sql = "INSERT INTO `$folders_table` (`id`, `active`,  `weight`,`subdoc_orderby`,`subdoc_order_asc`,`displayname`,`name`) 
-			VALUES (2, 1, 2, 'pub_datetime',0, 'О компании', 'about')";
-  mysql_query($sql);
-  
-   $sql = "INSERT INTO `$folders_table` (`id`, `active`, `weight`, `subdoc_orderby`,`subdoc_order_asc`,`displayname`,`name`,`mailon_docs_change`, `add_doc_message`) 
-				VALUES (3, 1, 3, 'pub_datetime', 0, 'Вопрос-ответ', 'faq', 1, 'Ваш вопрос принят, спасибо!')";
-  mysql_query($sql);
-  
-   $sql="INSERT INTO `$folders_table` (`id`, `active`,  `weight`,`subdoc_orderby`,`subdoc_order_asc`,`displayname`,`name`,`mailon_docs_change`, `add_doc_message`) 
-			VALUES (4, 1, 4, 'pub_datetime', 0, 'Контакты', 'contacts', 0, '')";
-  mysql_query($sql);
+  // Индексы и стандартные разделы создаются при каждой инициализации модуля.
+  // Фиксированные ID используются в шаблонах и правилах доступа.
+  $init_queries = array(
+    "ALTER TABLE `$docs_table` ADD FULLTEXT (`displayname`, `description`, `content`)",
+    "ALTER TABLE `$folders_table` ADD FULLTEXT (`displayname`, `description`, `content`)",
+    "INSERT INTO `$folders_table`
+      (`id`, `active`, `weight`, `subdoc_orderby`, `subdoc_order_asc`, `displayname`, `name`, `description`, `content`, `mailon_docs_change`, `add_doc_message`)
+      VALUES
+      (1, 1, 1, 'pub_datetime', 0, 'Новости', 'news', '', '', 0, ''),
+      (2, 1, 2, 'pub_datetime', 0, 'О компании', 'about', '', '', 0, ''),
+      (3, 1, 3, 'pub_datetime', 0, 'Вопрос-ответ', 'faq', '', '', 1, 'Ваш вопрос принят, спасибо!'),
+      (4, 1, 4, 'pub_datetime', 0, 'Контакты', 'contacts', '', '', 0, '')"
+  );
+  foreach ($init_queries as $sql) {
+    try {
+      $result = mysqli_query($dbconn, $sql);
+    } catch (mysqli_sql_exception $e) {
+      sysException('content_init', DATABASE_ERROR, $e->getMessage());
+      return false;
+    }
+    if ($result === false) {
+      sysException('content_init', DATABASE_ERROR, mysqli_error($dbconn));
+      return false;
+    }
+  }
   
 
 	//  Шаблоны  
