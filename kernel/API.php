@@ -643,13 +643,13 @@ function sysVarDelCached($cacheKey, $name = null)
     if (isset($GLOBALS['sysVar_cache'][$cacheKey][$name])) {
       unset($GLOBALS['sysVar_cache'][$cacheKey][$name]);
       //Флажочек что надо засадить на диск
-      $GLOBALS['sysVar_cache'][$cacheKey][syscache_need_flush] = true;
+      $GLOBALS['sysVar_cache'][$cacheKey]['syscache_need_flush'] = true;
     }
   } else {//Удаляем весь кеш кей
     if (isset($GLOBALS['sysVar_cache'][$cacheKey])) {
       unset($GLOBALS['sysVar_cache'][$cacheKey]);
       //Флажочек что надо засадить на диск
-      $GLOBALS['sysVar_cache'][$cacheKey][syscache_need_flush] = true;
+      $GLOBALS['sysVar_cache'][$cacheKey]['syscache_need_flush'] = true;
     }
   }
   ;
